@@ -39,29 +39,29 @@ class TestController extends Controller
                 $column_sort = array_column($data, 'price');
             }
             if ($request->sort == 'most_selling') {
-                $datas=array();
-                $x=0;
-                $column_sort=array_column($data, 'vendor_name');
-                $column_sorts=array_count_values(array_column($data, 'vendor_name'));
-                arsort($column_sorts);
-                foreach ($column_sorts as $keys => $values)
-                {
-                    foreach ($column_sort as $key => $value)
-                    {
-                        if($keys == $value)
-                        {
-                            $datas[$x]= $data[$key];
-                            $x++;
+                $datas = array();
+                if (!isset($request->product_name)) {
+                    if (!isset($request->vendor_name)) {
+                        $x = 0;
+                        $column_sort = array_column($data, 'vendor_name');
+                        $column_sorts = array_count_values(array_column($data, 'vendor_name'));
+                        arsort($column_sorts);
+                        foreach ($column_sorts as $keys => $values) {
+                            foreach ($column_sort as $key => $value) {
+                                if ($keys == $value) {
+                                    $datas[$x] = $data[$key];
+                                    $x++;
+                                }
+                            }
                         }
                     }
-
                 }
                 return response($datas);
             }
             if ($request->sort == 'customer_votes') {
                 $column_sort = array_column($data, 'customer_votes');
             }
-            array_multisort($column_sort, SORT_ASC, SORT_REGULAR,$data);
+            array_multisort($column_sort, SORT_ASC, SORT_REGULAR, $data);
         }
         return response($data);
     }
