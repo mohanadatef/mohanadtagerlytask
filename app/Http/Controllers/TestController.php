@@ -40,8 +40,7 @@ class TestController extends Controller
             }
             if ($request->sort == 'most_selling') {
                 $datas = array();
-                if (!isset($request->product_name)) {
-                    if (!isset($request->vendor_name)) {
+                if (!isset($request->product_name) && !isset($request->vendor_name)) {
                         $x = 0;
                         $column_sort = array_column($data, 'vendor_name');
                         $column_sorts = array_count_values(array_column($data, 'vendor_name'));
@@ -54,7 +53,6 @@ class TestController extends Controller
                                 }
                             }
                         }
-                    }
                 }
                 return response($datas);
             }
