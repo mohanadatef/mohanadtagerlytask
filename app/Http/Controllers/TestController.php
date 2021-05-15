@@ -39,7 +39,24 @@ class TestController extends Controller
                 $column_sort = array_column($data, 'price');
             }
             if ($request->sort == 'most_selling') {
+                $datas=array();
+                $x=0;
                 $column_sort=array_column($data, 'vendor_name');
+                $column_sorts=array_count_values(array_column($data, 'vendor_name'));
+                arsort($column_sorts);
+                foreach ($column_sorts as $keys => $values)
+                {
+                    foreach ($column_sort as $key => $value)
+                    {
+                        if($keys == $value)
+                        {
+                            $datas[$x]= $data[$key];
+                            $x++;
+                        }
+                    }
+
+                }
+                return response($datas);
             }
             if ($request->sort == 'customer_votes') {
                 $column_sort = array_column($data, 'customer_votes');
